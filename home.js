@@ -1,5 +1,5 @@
 const tg = window.Telegram.WebApp;
-const AdController = window.Adsgram.init({ blockId: "4823" });
+const AdController = window.Adsgram.init({ blockId: "int-28209" });
 
 tg.expand(); // Mini appni to'liq ekranga yoyish
 
