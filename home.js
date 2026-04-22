@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
 // Adsgram blok ID-ingiz
-const AdController = window.Adsgram.init({ blockId: "int-28209" });
+const AdController = window.Adsgram.init({ blockId: "int-28391" });
 
 tg.expand(); // Ilovani to'liq ekranga yoyish
 
