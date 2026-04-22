@@ -95,7 +95,7 @@ function runMining() {
                 clearInterval(miningInterval);
             }
         }
-    }, 1500); // 2x tezlik uchun 1000ms
+    }, 700); // 2x tezlik uchun 1000ms
 }
 
 async function showAd() {
