@@ -1,68 +1,77 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set, update } from "firebase/database";
+const tg = window.Telegram.WebApp;
+const AdController = window.Adsgram.init({ blockId: "4823" });
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBUkCUhNzMGSBc7q23QVOAh0yK0OOl80uM",
-  authDomain: "kazino-b83b8.firebaseapp.com",
-  databaseURL: "https://kazino-b83b8-default-rtdb.firebaseio.com",
-  projectId: "kazino-b83b8",
-  storageBucket: "kazino-b83b8.firebasestorage.app",
-  messagingSenderId: "46554087265",
-  appId: "1:46554087265:web:240e6e2808b62ded448f20",
-  measurementId: "G-M6YG9P3PV8"
-};
+tg.expand(); // Mini appni to'liq ekranga yoyish
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// Foydalanuvchi ID (Hozircha statik, tizimga kirish bo'lsa dinamik bo'ladi)
-const userId = "user_123"; 
-const userRef = ref(db, 'users/' + userId);
-
-let currentBalance = 0;
-let isMining = false;
-
-// Balansni realtime yuklab olish
-onValue(userRef, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-        currentBalance = data.balance || 0;
-        document.getElementById('balance').innerText = currentBalance.toLocaleString();
-    } else {
-        // Agar foydalanuvchi bazada bo'lmasa, yangi ochish
-        set(userRef, { balance: 0 });
-    }
-});
-
+const balanceEl = document.getElementById('balance');
 const startBtn = document.getElementById('startBtn');
 const consoleOutput = document.getElementById('console-output');
 
+let currentBalance = 0.00;
+let isMining = false;
+let sessionEarned = 0.00;
+
+// Telegram xotirasidan balansni yuklash
+tg.CloudStorage.getItem('user_balance', (err, value) => {
+    if (!err && value) {
+        currentBalance = parseFloat(value);
+        balanceEl.innerText = currentBalance.toFixed(2);
+    } else {
+        currentBalance = 0.00;
+        saveBalance(0.00);
+    }
+});
+
+function saveBalance(val) {
+    tg.CloudStorage.setItem('user_balance', val.toString());
+}
+
+function addLog(msg) {
+    const div = document.createElement('div');
+    div.className = 'line';
+    div.innerText = `> ${msg}`;
+    consoleOutput.appendChild(div);
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+}
+
 startBtn.onclick = () => {
     if (isMining) return;
-    isMining = true;
-    startBtn.innerText = "MINING...";
-    startBtn.style.opacity = "0.5";
     
-    miningProcess();
+    isMining = true;
+    startBtn.innerText = "MINING ACTIVE...";
+    startBtn.style.background = "#333";
+    startBtn.style.color = "#888";
+    startBtn.disabled = true;
+
+    addLog("Mining algoritmi ishga tushdi...");
+    runMining();
 };
 
-function miningProcess() {
+function runMining() {
     setInterval(() => {
-        if (!isMining) return;
+        const hash = Math.random().toString(36).substring(2, 10).toUpperCase();
+        addLog(`HASH: ${hash} | +0.01 SO'M`);
 
-        // Tasodifiy hash yaratish
-        const hash = Math.random().toString(36).substring(2, 15).toUpperCase();
-        const code = "DEXO_" + Math.floor(Math.random() * 9999);
-        
-        // Konsolga chiqarish
-        const p = document.createElement('div');
-        p.innerHTML = `> Hash: ${hash} | <span style="color:white">${code}</span> | +5 SO'M`;
-        consoleOutput.appendChild(p);
-        consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        currentBalance = parseFloat((currentBalance + 0.01).toFixed(2));
+        sessionEarned = parseFloat((sessionEarned + 0.01).toFixed(2));
 
-        // Balansni yangilash (Har bir intervalda 5 so'm qo'shiladi)
-        currentBalance += 5;
-        update(userRef, { balance: currentBalance });
+        balanceEl.innerText = currentBalance.toFixed(2);
+        saveBalance(currentBalance);
 
-    }, 2000); // Har 2 soniyada mayning qiladi
+        // Har 0.50 so'mda reklama chiqarish
+        if (sessionEarned >= 0.50) {
+            showAd();
+        }
+    }, 2000);
+}
+
+function showAd() {
+    addLog("Reklama yuklanmoqda...");
+    AdController.show().then(() => {
+        addLog("Reklama tugadi. Mukofot saqlandi.");
+        sessionEarned = 0;
+    }).catch(() => {
+        addLog("Reklama xatosi, lekin mining davom etadi.");
+        sessionEarned = 0;
+    });
 }
