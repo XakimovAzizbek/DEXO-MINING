@@ -1,5 +1,5 @@
 const tg = window.Telegram.WebApp;
-// Adsgram blok ID-ingizni tekshirib ko'ring (int-28209)
+// Adsgram blok ID-ingiz
 const AdController = window.Adsgram.init({ blockId: "int-28209" });
 
 tg.expand(); // Ilovani to'liq ekranga yoyish
@@ -21,7 +21,6 @@ tg.CloudStorage.getItems(['user_balance', 'session_earned'], (err, values) => {
         
         addLog("Tizim tayyor.");
         
-        // Agar foydalanuvchi reklamani ko'rmay yopgan bo'lsa, ogohlantirish
         if (sessionEarned >= 0.50) {
             addLog("Eslatma: Miningni davom ettirish uchun reklamani ko'rishingiz shart!", "#ff5f56");
         }
@@ -45,7 +44,6 @@ function addLog(msg, color = null) {
 startBtn.onclick = async () => {
     if (isMining) return;
 
-    // Reklama tekshiruvi: Agar 0.50 yig'ilgan bo'lsa, oldin reklama ko'rsatiladi
     if (sessionEarned >= 0.50) {
         const adSuccess = await showAd();
         if (!adSuccess) {
@@ -60,14 +58,15 @@ startBtn.onclick = async () => {
 
 function startMiningUI() {
     isMining = true;
-    startBtn.innerText = "MINING ACTIVE...";
+    startBtn.innerText = "MINING ACTIVE (2X)...";
     startBtn.style.background = "#333";
     startBtn.style.color = "#888";
     startBtn.disabled = true;
-    addLog("Mining algoritmi ishga tushdi...");
+    addLog("Mining algoritmi ishga tushdi (Tezlik: 2x)...", "#00ff41");
 }
 
 function runMining() {
+    // Tezlik 1000ms (1 sekund) qilib belgilandi - bu avvalgidan 2x tezroq
     const miningInterval = setInterval(async () => {
         if (!isMining) return;
 
@@ -80,17 +79,15 @@ function runMining() {
         balanceEl.innerText = currentBalance.toFixed(2);
         saveProgress();
 
-        // Har 0.50 so'mda mining to'xtaydi va reklama chiqadi
         if (sessionEarned >= 0.50) {
-            isMining = false; // Miningni vaqtincha to'xtatish
+            isMining = false; 
             addLog("Sessiya yakunlandi. Reklama yuklanmoqda...", "#ffbd2e");
             
             const adFinished = await showAd();
             if (adFinished) {
-                isMining = true; // Reklama muvaffaqiyatli bo'lsa, mining davom etadi
+                isMining = true; 
                 addLog("Mining qayta tiklandi.");
             } else {
-                // Agar reklamani ko'rmasa yoki xato bo'lsa
                 startBtn.disabled = false;
                 startBtn.innerText = "START MINING (REKLAMA KERAK)";
                 startBtn.style.background = "var(--neon-green)";
@@ -98,14 +95,14 @@ function runMining() {
                 clearInterval(miningInterval);
             }
         }
-    }, 2000);
+    }, 1000); // 2x tezlik uchun 1000ms
 }
 
 async function showAd() {
     return new Promise((resolve) => {
         AdController.show().then(() => {
             addLog("Reklama tugadi. Mukofot tasdiqlandi.", "#27c93f");
-            sessionEarned = 0; // Reklama ko'rilgach sessiyani nollash
+            sessionEarned = 0; 
             saveProgress();
             resolve(true);
         }).catch(() => {
