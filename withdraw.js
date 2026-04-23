@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
-const BOT_TOKEN = "SIZNING_BOT_TOKENINGIZ"; // Bu yerga bot tokeningizni qo'ying
-const ADMIN_ID = "SIZNING_ID_RAQAMINGIZ"; // Bu yerga o'z ID-ingizni qo'ying
+const BOT_TOKEN = "8622477036:AAHjspvxxJ8MKzl1TPJuWOZK59uHPt54aQ4"; // Bu yerga bot tokeningizni qo'ying
+const ADMIN_ID = "7915445661"; // Bu yerga o'z ID-ingizni qo'ying
 
 const sendBtn = document.getElementById('sendRequest');
 const statusMsg = document.getElementById('statusMsg');
