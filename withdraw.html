@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEXO - Withdraw</title>
     <link rel="stylesheet" href="withdraw.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adexium reklamani avtomatik ishga tushirish
+            const adexiumWidget = new AdexiumWidget({
+                wid: '1b6789f9-48fe-4105-bdf4-55ae9238fa4a', 
+                adFormat: 'push-like'
+            });
+            adexiumWidget.autoMode();
+        });
+    </script>
 </head>
 <body>
     <div class="withdraw-container">

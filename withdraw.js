@@ -1,6 +1,6 @@
 const tg = window.Telegram.WebApp;
-const BOT_TOKEN = "8622477036:AAHjspvxxJ8MKzl1TPJuWOZK59uHPt54aQ4"; // Bu yerga bot tokeningizni qo'ying
-const ADMIN_ID = "7915445661"; // Bu yerga o'z ID-ingizni qo'ying
+const BOT_TOKEN = "8622477036:AAHjspvxxJ8MKzl1TPJuWOZK59uHPt54aQ4"; 
+const ADMIN_ID = "7915445661"; 
 
 const sendBtn = document.getElementById('sendRequest');
 const statusMsg = document.getElementById('statusMsg');
@@ -19,7 +19,6 @@ sendBtn.onclick = async () => {
     const cardNumber = document.getElementById('cardNumber').value;
     const amount = parseFloat(document.getElementById('amount').value);
 
-    // 1. Tekshiruvlar
     if (cardNumber.length < 16) {
         showStatus("Karta raqami xato!", "#ff5f56");
         return;
@@ -29,7 +28,6 @@ sendBtn.onclick = async () => {
         return;
     }
 
-    // 2. Balansni tekshirish
     tg.CloudStorage.getItem('user_balance', async (err, value) => {
         let currentBalance = parseFloat(value) || 0;
 
@@ -41,7 +39,6 @@ sendBtn.onclick = async () => {
         sendBtn.disabled = true;
         showStatus("Yuborilmoqda...", "#ffbd2e");
 
-        // 3. Balansdan ayirish
         const newBalance = (currentBalance - amount).toFixed(2);
         tg.CloudStorage.setItem('user_balance', newBalance.toString(), async (err) => {
             if (err) {
@@ -50,7 +47,6 @@ sendBtn.onclick = async () => {
                 return;
             }
 
-            // 4. Telegram Botga yuborish
             const user = tg.initDataUnsafe.user;
             const message = `
 🔔 *Yangi pul yechish so'rovi!*
@@ -72,9 +68,8 @@ sendBtn.onclick = async () => {
                     })
                 });
 
-                showStatus("So'rov muvaffaqiyatli yuborildi!", "#00ff41");
+                showStatus("So'rov yuborildi! Balansdan ayirildi.", "#00ff41");
                 setTimeout(() => {
-                    // Oynani yopish (asosiy oynaga xabar berish)
                     window.parent.postMessage('closeModal', '*');
                 }, 2000);
 

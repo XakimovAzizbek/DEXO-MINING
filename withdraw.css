@@ -4,6 +4,7 @@ body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 15px;
+    overflow-x: hidden;
 }
 
 .withdraw-container {
@@ -12,7 +13,7 @@ body {
     gap: 15px;
 }
 
-h3 { text-align: center; color: #00ff41; margin-bottom: 10px; }
+h3 { text-align: center; color: #00ff41; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
 .method-selector {
     display: flex;
@@ -23,8 +24,8 @@ h3 { text-align: center; color: #00ff41; margin-bottom: 10px; }
 .method-card {
     flex: 1;
     background: #151515;
-    border: 2px solid #333;
-    padding: 10px;
+    border: 1px solid #333;
+    padding: 12px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -33,28 +34,30 @@ h3 { text-align: center; color: #00ff41; margin-bottom: 10px; }
     transition: 0.3s;
 }
 
-.method-card img { width: 40px; margin-bottom: 5px; }
+.method-card img { width: 35px; height: auto; margin-bottom: 8px; }
 
 .method-card.active {
     border-color: #00ff41;
-    background: rgba(0, 255, 65, 0.1);
+    background: rgba(0, 255, 65, 0.05);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
-label { font-size: 0.8rem; color: #888; }
+label { font-size: 0.75rem; color: #888; margin-left: 5px; }
 
 input {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    padding: 12px;
+    background: #111;
+    border: 1px solid #222;
+    padding: 14px;
     color: white;
-    border-radius: 8px;
+    border-radius: 10px;
     outline: none;
+    font-size: 1rem;
 }
 
 input:focus { border-color: #00ff41; }
@@ -63,13 +66,16 @@ button {
     background: #00ff41;
     color: black;
     border: none;
-    padding: 15px;
-    border-radius: 10px;
-    font-weight: bold;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 800;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 5px;
+    transition: 0.2s;
 }
 
-button:disabled { background: #333; color: #888; }
+button:active { transform: scale(0.98); }
 
-#statusMsg { font-size: 0.8rem; text-align: center; margin-top: 10px; }
+button:disabled { background: #222; color: #555; }
+
+#statusMsg { font-size: 0.85rem; text-align: center; margin-top: 10px; min-height: 20px; }
