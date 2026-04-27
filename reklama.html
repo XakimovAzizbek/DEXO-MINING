@@ -2,53 +2,53 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DEXO AD</title>
     <link rel="stylesheet" href="reklama.css">
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 </head>
 <body>
+<div class="shell">
 
-    <div class="ad-shell">
+    <!-- Fon effektlari -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
 
-        <!-- Yulduzcha zarrachalar -->
-        <div class="particles">
-            <span></span><span></span><span></span>
-            <span></span><span></span><span></span>
+    <!-- CHAP: ikonka -->
+    <div class="left-col">
+        <div class="bolt-wrap">
+            <svg class="bolt-svg" viewBox="0 0 24 24" fill="none">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
+                      stroke="currentColor" stroke-width="2"
+                      stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <div class="bolt-ring"></div>
+            <div class="bolt-ring r2"></div>
         </div>
-
-        <!-- Chap: ikonka + matn -->
-        <div class="ad-left">
-            <div class="ad-icon">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                </svg>
-                <div class="icon-ring"></div>
-            </div>
-            <div class="ad-text">
-                <div class="ad-label">SPONSOR</div>
-                <div class="ad-title">DEXO BOOST</div>
-                <div class="ad-sub">Kuzatib boring →</div>
-            </div>
-        </div>
-
-        <!-- O'ng: taymer + tugma -->
-        <div class="ad-right">
-            <div class="ad-timer-wrap">
-                <svg class="timer-ring" viewBox="0 0 36 36">
-                    <circle class="ring-bg" cx="18" cy="18" r="15"/>
-                    <circle class="ring-fill" id="ringFill" cx="18" cy="18" r="15"/>
-                </svg>
-                <span class="timer-num" id="timerNum">35</span>
-            </div>
-            <button class="ad-btn" id="adBtn" disabled>
-                <span class="btn-inner">WATCH</span>
-                <span class="btn-glow"></span>
-            </button>
-        </div>
-
     </div>
 
-    <script src="reklama.js"></script>
+    <!-- O'RTA: matn + status -->
+    <div class="mid-col">
+        <div class="ad-badge">● SPONSORED</div>
+        <div class="ad-name">DEXO BOOST</div>
+        <div class="ad-status" id="adStatus">YUKLANMOQDA...</div>
+    </div>
+
+    <!-- O'NG: taymer halqasi + tugma -->
+    <div class="right-col">
+        <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 40 40">
+                <circle class="ring-bg"   cx="20" cy="20" r="17"/>
+                <circle class="ring-fill" id="ringFill" cx="20" cy="20" r="17"/>
+            </svg>
+            <span class="ring-num" id="timerNum">35</span>
+        </div>
+        <button class="watch-btn" id="adBtn" disabled>
+            <span class="watch-label">WATCH</span>
+        </button>
+    </div>
+
+</div>
+<script src="reklama.js"></script>
 </body>
 </html>

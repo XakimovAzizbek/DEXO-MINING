@@ -1,94 +1,141 @@
 // ── ADSGRAM INIT ──
-const AdController = window.Adsgram
-    ? window.Adsgram.init({ blockId: "int-28772" })
-    : null;
+let AdController = null;
+
+function initAd() {
+    if (window.Adsgram) {
+        AdController = window.Adsgram.init({ blockId: "int-28772" });
+    }
+}
 
 // ── ELEMENTLAR ──
-const timerNum  = document.getElementById('timerNum');
-const ringFill  = document.getElementById('ringFill');
-const adBtn     = document.getElementById('adBtn');
+const timerNum = document.getElementById('timerNum');
+const ringFill = document.getElementById('ringFill');
+const adBtn    = document.getElementById('adBtn');
+const adStatus = document.getElementById('adStatus');
 
-// SVG aylanasi uzunligi: 2π × r = 2π × 15 ≈ 94.25
-const CIRCUMFERENCE = 2 * Math.PI * 15; // 94.25
+// SVG r=15 => circumference = 2π×15 ≈ 94.25
+const CIRCUMFERENCE = 2 * Math.PI * 15;
 const TOTAL_SEC     = 35;
 
 let secondsLeft = TOTAL_SEC;
 let countdown   = null;
 let adRunning   = false;
+let cycleCount  = 0;
 
-// ── TAYMER ──
+// ── RING YANGILASH ──
+function updateRing(sec) {
+    const progress = Math.max(0, sec) / TOTAL_SEC;
+    ringFill.style.strokeDashoffset = CIRCUMFERENCE * progress;
+}
+
+// ── STATUS MATNI ──
+function setStatus(text, color) {
+    adStatus.textContent = text;
+    adStatus.style.color = color || 'var(--muted)';
+}
+
+// ── TAYMER BOSHLASH ──
 function startCountdown() {
+    if (countdown) {
+        clearInterval(countdown);
+        countdown = null;
+    }
+
     secondsLeft = TOTAL_SEC;
+    adRunning   = false;
+
     adBtn.disabled = true;
     adBtn.classList.remove('ready');
     timerNum.classList.remove('done');
     ringFill.classList.remove('done');
+    ringFill.style.stroke = 'var(--accent)';
+    ringFill.style.filter = 'drop-shadow(0 0 4px var(--accent))';
 
     updateRing(TOTAL_SEC);
     timerNum.textContent = TOTAL_SEC;
+    setStatus('KEYINGI REKLAMA...', 'var(--muted)');
 
-    clearInterval(countdown);
     countdown = setInterval(() => {
         secondsLeft--;
-        timerNum.textContent = secondsLeft;
-        updateRing(secondsLeft);
-
-        if (secondsLeft <= 0) {
+        if (secondsLeft > 0) {
+            timerNum.textContent = secondsLeft;
+            updateRing(secondsLeft);
+        } else {
             clearInterval(countdown);
+            countdown = null;
             onReady();
         }
     }, 1000);
 }
 
-function updateRing(sec) {
-    // offset: to'liq = 0, bo'sh = CIRCUMFERENCE
-    const progress = sec / TOTAL_SEC;
-    const offset   = CIRCUMFERENCE * progress;
-    ringFill.style.strokeDashoffset = offset;
-}
-
+// ── TAYMER TUGADI ──
 function onReady() {
-    timerNum.textContent = '✓';
+    timerNum.textContent = '▶';
     timerNum.classList.add('done');
     ringFill.classList.add('done');
-    ringFill.style.strokeDashoffset = 0;
+    ringFill.style.stroke = '#00ff88';
+    ringFill.style.filter = 'drop-shadow(0 0 6px #00ff88)';
+    updateRing(0);
 
     adBtn.disabled = false;
     adBtn.classList.add('ready');
+    setStatus('REKLAMA TAYYOR!', '#00ff88');
 
-    // Avtomatik reklamani ko'rsatish
-    showAd();
+    setTimeout(() => showAd(), 400);
 }
 
 // ── REKLAMA KO'RSATISH ──
 async function showAd() {
     if (adRunning) return;
-    if (!AdController) {
-        console.warn('Adsgram yuklanmagan');
-        startCountdown();
-        return;
-    }
+    if (countdown !== null) return;
 
     adRunning = true;
     adBtn.disabled = true;
     adBtn.classList.remove('ready');
+    setStatus('YUKLANMOQDA...', 'var(--accent)');
+
+    if (!AdController) initAd();
+
+    if (!AdController) {
+        console.warn('[DEXO AD] Adsgram yuklanmagan');
+        setStatus('AD XIZMAT YO\'Q', '#ff5f56');
+        await sleep(1500);
+        adRunning = false;
+        cycleCount++;
+        startCountdown();
+        return;
+    }
 
     try {
+        setStatus('KO\'RILMOQDA...', 'var(--accent)');
         await AdController.show();
-        // Muvaffaqiyatli tugadi — qayta boshlash
-    } catch (e) {
-        // Foydalanuvchi yopdi yoki xatolik — baribir qayta boshlash
-        console.warn('Reklama yopildi yoki xatolik:', e);
-    } finally {
-        adRunning = false;
-        startCountdown();
+        cycleCount++;
+        setStatus('✓ MUKOFOT #' + cycleCount, '#00ff88');
+        await sleep(700);
+    } catch (err) {
+        console.warn('[DEXO AD] Xatolik:', err);
+        setStatus('YOPILDI — QAYTA...', '#ffbd2e');
+        await sleep(700);
     }
+
+    // HAR DOIM yangi countdown — loop uzilmaydi
+    adRunning = false;
+    startCountdown();
 }
 
-// ── TUGMA BOSILGANDA ──
+function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+}
+
+// ── TUGMA ──
 adBtn.addEventListener('click', () => {
-    if (!adBtn.disabled) showAd();
+    if (!adBtn.disabled && !adRunning && countdown === null) {
+        showAd();
+    }
 });
 
-// ── BOSHLASH ──
-startCountdown();
+// ── START ──
+document.addEventListener('DOMContentLoaded', () => {
+    initAd();
+    startCountdown();
+});
