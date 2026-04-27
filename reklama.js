@@ -1,6 +1,6 @@
 // ── ADSGRAM INIT ──
 const AdController = window.Adsgram
-    ? window.Adsgram.init({ blockId: "int-28391" })
+    ? window.Adsgram.init({ blockId: "int-28772" })
     : null;
 
 // ── ELEMENTLAR ──
