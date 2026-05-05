@@ -3,94 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEXO MINING</title>
+    <title>DEXO MINING v2.2</title>
     <link rel="stylesheet" href="home.css">
-    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            // Adexium reklamani avtomatik ishga tushirish
-            const adexiumWidget = new AdexiumWidget({
-                wid: '1b6789f9-48fe-4105-bdf4-55ae9238fa4a', 
-                adFormat: 'push-like'
-            });
-            adexiumWidget.autoMode();
-        });
-    </script>
-    <script type="module" src="https://richinfo.co/richpartners/push/js/rp-cl-ob.js?pubid=991235&siteid=395074&niche=33" async data-cfasync="false"></script>
-
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 </head>
 <body>
     <div class="header">
         <div class="logo">DEXO<span>MINING</span></div>
-        <div class="balance-card">
-            <small>UMUMIY BALANS</small>
-            <div class="amount"><span id="balance">0.00</span> SO'M</div>
+        <div class="balance-card-mini">
+            <small>BALANS</small>
+            <div class="amount-mini"><span id="balance">0.00</span> SO'M</div>
         </div>
     </div>
 
     <div class="main-container">
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="title">DEXO CONSOLE v2.1</span>
-            </div>
-            <div id="console-output" class="terminal-body">
-                <div class="line">> Tizim yuklanmoqda...</div>
-            </div>
-        </div>
-        <button id="startBtn" class="mining-btn">START MINING</button>
-
-        <!-- MINI OYNACHA - REKLAMA -->
-        <div class="mini-window">
-            <div class="mini-window-header">
-                <div class="mini-window-dots">
+        <div class="glass-box terminal-box">
+            <div class="box-header">
+                <div class="dots">
                     <span class="dot red"></span>
                     <span class="dot yellow"></span>
                     <span class="dot green"></span>
                 </div>
-                <div class="mini-window-title">
-                    <span class="mini-window-icon">📡</span>
-                    <span>AD BROADCAST</span>
-                </div>
-                <div class="mini-window-badge">LIVE</div>
+                <div class="box-title">HASH CONSOLE</div>
             </div>
-            <div class="mini-window-body">
-                <div class="mini-window-scanline"></div>
-                <iframe
-                    src="reklama.html"
-                    class="mini-window-iframe"
-                    frameborder="0"
-                    scrolling="no"
-                    title="Reklama"
-                ></iframe>
-            </div>
-            <div class="mini-window-footer">
-                <div class="mini-window-signal">
-                    <span class="signal-bar"></span>
-                    <span class="signal-bar"></span>
-                    <span class="signal-bar"></span>
-                    <span class="signal-bar"></span>
-                </div>
-                <span class="mini-window-status">DEXO NET // SPONSORED</span>
+            <div id="console-output" class="box-body terminal-text">
+                <div class="line">> Tizim tayyor...</div>
             </div>
         </div>
-        <!-- /MINI OYNACHA -->
+
+        <button id="startBtn" class="mining-btn">START MINING</button>
+
+        <div class="ads-grid">
+            <div class="glass-box ad-box">
+                <div class="box-header">
+                    <div class="box-title">📡 BROADCAST #1</div>
+                    <div class="badge">LIVE</div>
+                </div>
+                <div class="box-body ad-content">
+                    <iframe src="reklama.html" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+
+            <div class="glass-box ad-box">
+                <div class="box-header">
+                    <div class="box-title">📡 BROADCAST #2</div>
+                    <div class="badge purple">NEW</div>
+                </div>
+                <div class="box-body ad-content">
+                    <iframe src="reklama2.html" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="home.html" class="nav-item active">
-            <div class="icon">🏠</div>
-            <span>Asosiy</span>
-        </a>
-        <a href="profile.html" class="nav-item">
-            <div class="icon">👤</div>
-            <span>Profil</span>
-        </a>
+        <a href="home.html" class="nav-item active">🏠<span>Asosiy</span></a>
+        <a href="profile.html" class="nav-item">👤<span>Profil</span></a>
     </nav>
+
     <script src="home.js"></script>
 </body>
 </html>

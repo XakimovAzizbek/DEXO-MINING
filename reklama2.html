@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <style>
+        body { margin: 0; background: transparent; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    </style>
+</head>
+<body>
+    <script>
+        const AdController = window.Adsgram.init({ blockId: "int-29416" });
+        function loadAd() {
+            AdController.show().catch(e => console.log("Ad delay"));
+        }
+        setInterval(loadAd, 30000); // Har 30 soniyada yangilash
+        loadAd();
+    </script>
+</body>
+</html>
