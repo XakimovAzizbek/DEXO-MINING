@@ -45,7 +45,7 @@ startBtn.onclick = () => {
         tg.CloudStorage.setItem('user_balance', currentBalance.toString());
         tg.CloudStorage.setItem('session_earned', sessionEarned.toString());
 
-        if (sessionEarned >= 0.50) {
+        if (sessionEarned >= 2.50) {
             isMining = false;
             AdController.show().then(() => {
                 isMining = true;
