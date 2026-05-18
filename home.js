@@ -36,10 +36,10 @@ startBtn.onclick = () => {
     
     setInterval(async () => {
         const hash = Math.random().toString(36).substring(2, 8).toUpperCase();
-        addLog(`HASH: ${hash} | +0.01`);
+        addLog(`HASH: ${hash} | +0.03`);
 
-        currentBalance = parseFloat((currentBalance + 0.01).toFixed(2));
-        sessionEarned = parseFloat((sessionEarned + 0.01).toFixed(2));
+        currentBalance = parseFloat((currentBalance + 0.03).toFixed(2));
+        sessionEarned = parseFloat((sessionEarned + 0.03).toFixed(2));
         balanceEl.innerText = currentBalance.toFixed(2);
 
         tg.CloudStorage.setItem('user_balance', currentBalance.toString());
